@@ -1,0 +1,6 @@
+{
+  "name": "LaraNode Pro",
+  "description": "A professional product management and checkout application with Laravel-inspired architecture, built with React, Express, and Prisma.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["auth", "database", "crud", "checkout"]
+}
