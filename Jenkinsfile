@@ -41,7 +41,7 @@ pipeline {
                     docker rm ${CONTAINER_NAME} || true
                     docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:${APP_PORT} ${DOCKER_IMAGE}:latest
                 """
-                echo `Application is running on port ${APP_PORT}`
+                echo """Application is running on port ${APP_PORT}"""
             }
         }
     }
