@@ -39,7 +39,7 @@ pipeline {
                 sh """
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
-                    docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:3000 ${DOCKER_IMAGE}:latest --env-file /root/demo-cicd/.env
+                    docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:3000 --env-file /root/demo-cicd/.env ${DOCKER_IMAGE}:latest
                 """
                 echo """Application is running on port 3000"""
             }
