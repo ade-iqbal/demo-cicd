@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE = "laranode-pro-app"
         CONTAINER_NAME = "laranode-prod"
         APP_PORT = 5000
+        ENV_FILE = "/opt/demo-cicd/.env"
     }
 
     stages {
@@ -39,7 +40,7 @@ pipeline {
                 sh """
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
-                    docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:3000 --env-file /root/demo-cicd/.env ${DOCKER_IMAGE}:latest
+                    docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:3000 --env-file ${ENV_FILE} ${DOCKER_IMAGE}:latest
                 """
                 echo """Application is running on port 3000"""
             }

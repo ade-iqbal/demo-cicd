@@ -50,7 +50,13 @@ async function startServer() {
         },
       });
     } catch (error) {
-      res.status(500).json({ error: 'Login failed' });
+      console.error('Login error:', error);
+      res
+        .status(500)
+        .json({
+          error: 'Login failed',
+          details: error instanceof Error ? error.message : String(error),
+        });
     }
   });
 
@@ -75,9 +81,13 @@ async function startServer() {
         },
       });
     } catch (error) {
+      console.error('Registration error:', error);
       res
         .status(400)
-        .json({ error: 'Registration failed. User might already exist.' });
+        .json({
+          error: 'Registration failed. User might already exist.',
+          details: error instanceof Error ? error.message : String(error),
+        });
     }
   });
 
