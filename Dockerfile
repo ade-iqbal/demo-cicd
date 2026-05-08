@@ -1,26 +1,25 @@
-# Base image
+# 1. Base image with necessary system dependencies
 FROM node:22-slim AS base
-
-# Install openssl for Prisma
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-# Install dependencies
+# 2. Dependencies stage
 FROM base AS deps
+# Copy package files and prisma schema first to fix the build error
 COPY package.json package-lock.json* ./
-RUN npm install
+COPY prisma ./prisma/
+# Install all dependencies and clean cache to save disk space
+RUN npm ci && npm cache clean --force
 
-# Build stage
+# 3. Build stage
 FROM deps AS builder
 COPY . .
 # Generates Prisma client and builds Vite frontend
 RUN npm run build
 
-# Production runner
+# 4. Production runner
 FROM base AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
 
 # Copy necessary files from builder
@@ -30,8 +29,9 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/server.ts ./
 COPY --from=builder /app/prisma ./prisma
 
-# Use tsx to run server.ts in production as it handles ESM/TS reliably
-# In a bigger app, you might compile server.ts to JS, but tsx is fine for this demo.
-EXPOSE 3000
+# Security: Run as non-root user
+USER node
 
+EXPOSE 3000
+# Running with tsx handles TS/ESM reliably for the demo
 CMD ["npx", "tsx", "server.ts"]
