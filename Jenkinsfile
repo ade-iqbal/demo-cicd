@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "laranode-pro-app"
         CONTAINER_NAME = "laranode-prod"
+        APP_PORT = 5000
     }
 
     stages {
@@ -38,9 +39,9 @@ pipeline {
                 sh """
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
-                    docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${DOCKER_IMAGE}:latest
+                    docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:${APP_PORT} ${DOCKER_IMAGE}:latest
                 """
-                echo 'Application is running on port 3000'
+                echo `Application is running on port ${APP_PORT}`
             }
         }
     }
