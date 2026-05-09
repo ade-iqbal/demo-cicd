@@ -243,13 +243,13 @@ export default function App() {
               <div className="flex items-center gap-6">
                 {/* // TODO: FITUR TAMBAHAN - DASHBOARD UI (Commented out for Demo)
                  */}
-                {/* <button
+                <button
                   onClick={() => setView('dashboard' as any)}
                   className={`flex items-center gap-1 text-sm font-medium transition-colors ${view === 'dashboard' ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}
                 >
                   <LayoutDashboard className="w-4 h-4" />
                   Dashboard
-                </button> */}
+                </button>
                 <button
                   onClick={() => setView('products')}
                   className={`flex items-center gap-1 text-sm font-medium transition-colors ${view === 'products' ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}
@@ -690,7 +690,7 @@ export default function App() {
           )}
           {/* // TODO: FITUR TAMBAHAN - DASHBOARD UI (Commented out for Demo)
            */}
-          {/* {view === 'dashboard' && (
+          {view === 'dashboard' && (
             <motion.div
               key="dashboard"
               initial={{ opacity: 0 }}
@@ -711,7 +711,7 @@ export default function App() {
                 </div>
               </div>
             </motion.div>
-          )} */}
+          )}
         </AnimatePresence>
       </main>
     </div>

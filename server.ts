@@ -51,12 +51,10 @@ async function startServer() {
       });
     } catch (error) {
       console.error('Login error:', error);
-      res
-        .status(500)
-        .json({
-          error: 'Login failed',
-          details: error instanceof Error ? error.message : String(error),
-        });
+      res.status(500).json({
+        error: 'Login failed',
+        details: error instanceof Error ? error.message : String(error),
+      });
     }
   });
 
@@ -82,12 +80,10 @@ async function startServer() {
       });
     } catch (error) {
       console.error('Registration error:', error);
-      res
-        .status(400)
-        .json({
-          error: 'Registration failed. User might already exist.',
-          details: error instanceof Error ? error.message : String(error),
-        });
+      res.status(400).json({
+        error: 'Registration failed. User might already exist.',
+        details: error instanceof Error ? error.message : String(error),
+      });
     }
   });
 
@@ -196,31 +192,31 @@ async function startServer() {
   // --- DASHBOARD SUMMARY (TODO: Commented out for demo) ---
 
   // TODO: Fitur tambahan untuk menampilkan summary data
-  // app.get('/api/dashboard/summary', authenticate, async (req, res) => {
-  //   try {
-  //     const totalUsers = (await prisma.user.count()).toString();
-  //     const totalSales = await prisma.order.aggregate({
-  //       _sum: { totalPrice: true },
-  //     });
-  //     const productSales = await prisma.product.findMany({
-  //       include: {
-  //         _count: { select: { orderItems: true } },
-  //       },
-  //     });
+  app.get('/api/dashboard/summary', authenticate, async (req, res) => {
+    try {
+      const totalUsers = await prisma.user.count();
+      const totalSales = await prisma.order.aggregate({
+        _sum: { totalPrice: true },
+      });
+      const productSales = await prisma.product.findMany({
+        include: {
+          _count: { select: { orderItems: true } },
+        },
+      });
 
-  //     // Intentional logic complexity or potential bug could be introduced here
-  //     res.json({
-  //       totalUsers,
-  //       totalSales: totalSales._sum.totalPrice || 0,
-  //       productSales: productSales.map((p) => ({
-  //         name: p.name,
-  //         count: p._count.orderItems,
-  //       })),
-  //     });
-  //   } catch (error) {
-  //     res.status(500).json({ error: 'Dashboard summary failed' });
-  //   }
-  // });
+      // Intentional logic complexity or potential bug could be introduced here
+      res.json({
+        totalUsers,
+        totalSales: totalSales._sum.totalPrice || 0,
+        productSales: productSales.map((p) => ({
+          name: p.name,
+          count: p._count.orderItems,
+        })),
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Dashboard summary failed' });
+    }
+  });
 
   // --- VITE MIDDLEWARE ---
   if (process.env.NODE_ENV !== 'production') {

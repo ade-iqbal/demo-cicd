@@ -73,16 +73,16 @@ describe('LaraNode Pro API Tests', () => {
   });
 
   // TODO: UNIT TEST UNTUK DASHBOARD SUMMARY (Commented out for Demo)
-  // it('should return correct dashboard summary data', async () => {
-  //   const res = await request('http://localhost:3000')
-  //     .get('/api/dashboard/summary')
-  //     .set('Authorization', `Bearer ${authToken}`);
+  it('should return correct dashboard summary data', async () => {
+    const res = await request('http://localhost:3000')
+      .get('/api/dashboard/summary')
+      .set('Authorization', `Bearer ${authToken}`);
 
-  //   expect(res.status).toBe(200);
-  //   expect(res.body).toHaveProperty('totalUsers');
-  //   expect(res.body).toHaveProperty('totalSales');
-  //   expect(res.body).toHaveProperty('productSales');
-  //   expect(typeof res.body.totalSales).toBe('number');
-  //   expect(typeof res.body.totalUsers).toBe('number');
-  // });
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('totalUsers');
+    expect(res.body).toHaveProperty('totalSales');
+    expect(res.body).toHaveProperty('productSales');
+    expect(typeof res.body.totalSales).toBe('number');
+    expect(typeof res.body.totalUsers).toBe('number');
+  });
 });
